@@ -38,5 +38,19 @@ services:
       - postgres
       - redis
 
+   worker:
+    build:
+      context: ./backend
+
+    container_name: osint-worker
+
+    restart: unless-stopped
+
+    command: celery -A app.tasks.celery_app.celery_app worker --loglevel=info
+
+    depends_on:
+      - redis
+      - postgres
+
 volumes:
   postgres_data:

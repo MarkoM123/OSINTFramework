@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.db.session import SessionLocal
 from app.models.scan import Scan
-
+from app.tasks.scan_tasks import scan_domain
 router = APIRouter()
 
 
@@ -34,6 +34,10 @@ def create_scan(
     db.add(scan)
     db.commit()
     db.refresh(scan)
+    scan_domain.delay(
+    scan.id,
+    scan.target,
+)
 
     return {
         "scan_id": scan.id,
