@@ -2,9 +2,7 @@ services:
 
   postgres:
     image: postgres:17
-
     container_name: osint-postgres
-
     restart: unless-stopped
 
     environment:
@@ -20,28 +18,25 @@ services:
 
   redis:
     image: redis:7
-
     container_name: osint-redis
-
     restart: unless-stopped
 
     ports:
       - "6379:6379"
 
+  backend:
+    build:
+      context: ./backend
+
+    container_name: osint-backend
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - postgres
+      - redis
+
 volumes:
   postgres_data:
-
-  backend:
-  build:
-    context: ./backend
-
-  container_name: osint-backend
-
-  restart: unless-stopped
-
-  ports:
-    - "8000:8000"
-
-  depends_on:
-    - postgres
-    - redis
