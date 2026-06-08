@@ -31,6 +31,10 @@ services:
     container_name: osint-backend
     restart: unless-stopped
 
+    environment:
+      database_url: postgresql://osint:SameRendomShitt123.@postgres:5432/osintdb
+      redis_url: redis://redis:6379/0
+
     ports:
       - "8000:8000"
 
@@ -43,14 +47,17 @@ services:
       context: ./backend
 
     container_name: osint-worker
-
     restart: unless-stopped
+
+    environment:
+      database_url: postgresql://osint:SameRendomShitt123.@postgres:5432/osintdb
+      redis_url: redis://redis:6379/0
 
     command: celery -A app.tasks.celery_app.celery_app worker --loglevel=info
 
     depends_on:
-      - redis
       - postgres
+      - redis
 
 volumes:
   postgres_data:
