@@ -1,0 +1,16 @@
+name: Runner Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Show server info
+        run: |
+          whoami
+          hostname
+          pwd
+          docker --version
