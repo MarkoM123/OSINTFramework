@@ -38,7 +38,7 @@ services:
       - postgres
       - redis
 
-   worker:
+  worker:
     build:
       context: ./backend
 
