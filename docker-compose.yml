@@ -30,3 +30,18 @@ services:
 
 volumes:
   postgres_data:
+
+  backend:
+  build:
+    context: ./backend
+
+  container_name: osint-backend
+
+  restart: unless-stopped
+
+  ports:
+    - "8000:8000"
+
+  depends_on:
+    - postgres
+    - redis
