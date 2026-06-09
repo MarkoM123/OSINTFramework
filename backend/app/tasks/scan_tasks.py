@@ -1,5 +1,6 @@
 import subprocess
-
+from app.models.scan import Scan
+from app.models.asset import Asset
 from app.db.session import SessionLocal
 from app.models.asset import Asset
 from app.tasks.celery_app import celery_app
