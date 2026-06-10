@@ -1,8 +1,8 @@
 import subprocess
+
 from app.models.scan import Scan
 from app.models.asset import Asset
 from app.db.session import SessionLocal
-from app.models.asset import Asset
 from app.tasks.celery_app import celery_app
 
 
@@ -30,6 +30,12 @@ def scan_domain(scan_id: int, target: str):
             db.add(asset)
 
         db.commit()
+
+        scan = db.get(Scan, scan_id)
+
+        if scan:
+            scan.status = "completed"
+            db.commit()
 
     finally:
         db.close()
